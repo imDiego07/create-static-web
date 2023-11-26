@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import './App.css'; // Puedes personalizar el estilo en este archivo si decides crearlo.
+// App.js
+import React, { useState } from 'react'; // Importa App como una exportación nombrada
+import analyzeImage from './azure-image-analysis';
 
+
+// Primer componente de función (App)
 function App() {
   // Estados para almacenar la URL de la imagen y el mensaje de la imagen
   const [imageUrl, setImageUrl] = useState(''); // Estado para la URL de la imagen
@@ -47,5 +50,46 @@ function App() {
     </div>
   );
 }
-
 export default App;
+
+// Segundo componente de función (AnalyzeImage)
+const AnalyzeImage = () => {
+  const [imageUrl, setImageUrl] = useState('');
+  const [results, setResults] = useState(null);
+
+  const subscriptionKey = '4db32c3cac3144d38892a6435014fd46'; // Reemplaza con tu clave de suscripción
+  const endpoint = 'https://ia-web.cognitiveservices.azure.com/'; // Reemplaza con tu punto de extensión
+
+  const handleAnalyze = async () => {
+    try {
+      // Llama a la función de análisis de imagen
+      const analysisResults = await analyzeImage(imageUrl, subscriptionKey, endpoint);
+      setResults(analysisResults);
+    } catch (error) {
+      // Maneja errores
+      setResults(null);
+    }
+  };
+
+  const DisplayResults = () => {
+    // Implementa la lógica para mostrar los resultados en tu interfaz de usuario
+    // Puedes acceder a 'results' para obtener la respuesta de la API de Azure
+
+    return (
+      <div>
+        <h2>Resultados del Análisis:</h2>
+        {/* Mostrar los resultados según tu lógica */}
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      <input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+      <button onClick={handleAnalyze}>Analyze</button>
+      {results && <DisplayResults />}
+    </div>
+  );
+};
+
+export { App, AnalyzeImage };
