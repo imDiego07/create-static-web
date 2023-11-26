@@ -1,5 +1,3 @@
-import React from 'react';
-
 import React, { useState } from 'react';
 import './App.css'; // Puedes personalizar el estilo en este archivo si decides crearlo.
 
